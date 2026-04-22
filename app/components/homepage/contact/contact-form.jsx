@@ -35,19 +35,18 @@ function ContactForm() {
 
     try {
       setIsLoading(true);
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_APP_URL}/api/contact`,
-        userInput
-      );
+      const subject = `Message from ${userInput.name}`;
+      const body = `Name: ${userInput.name}\nEmail: ${userInput.email}\n\n${userInput.message}`;
+      window.location.href = `mailto:mostafa.sallam.dev@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-      toast.success("Message sent successfully!");
+      toast.success("Opening native email client...");
       setUserInput({
         name: "",
         email: "",
         message: "",
       });
     } catch (error) {
-      toast.error(error?.response?.data?.message);
+      toast.error("Failed to open email client.");
     } finally {
       setIsLoading(false);
     };
